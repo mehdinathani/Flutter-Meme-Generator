@@ -3,7 +3,7 @@ import 'package:memegeneraterappusingstacked/ui/views/home/home_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +20,23 @@ class HomeView extends StatelessWidget {
                 padding: const EdgeInsets.all(18.0),
                 child: Column(
                   children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: DropdownButtonFormField<String>(
-                          items: viewModel.templateNames
-                              .map((String templateName) {
-                            return DropdownMenuItem<String>(
-                              value: templateName,
-                              child: Text(templateName),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            viewModel.templateId =
-                                viewModel.getMemeIDbyName(newValue!).toString();
-                          },
-                          decoration: const InputDecoration(
-                              labelText: 'Select Template'),
-                        ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: DropdownButtonFormField<String>(
+                        items:
+                            viewModel.templateNames.map((String templateName) {
+                          return DropdownMenuItem<String>(
+                            value: templateName,
+                            child: Text(templateName),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          viewModel.templateId =
+                              viewModel.getMemeIDbyName(newValue!).toString();
+                        },
+                        decoration: const InputDecoration(
+                            labelText: 'Select Theme Name'),
                       ),
                     ),
                     // TextFormField(
@@ -54,7 +53,7 @@ class HomeView extends StatelessWidget {
                     // Text0 Input
                     TextFormField(
                       onChanged: (value) => viewModel.text0 = value,
-                      decoration: const InputDecoration(labelText: 'Text 0'),
+                      decoration: const InputDecoration(labelText: '1st Text'),
                       validator: (value) {
                         // You can add validation rules here if needed
                         return null;
@@ -65,13 +64,13 @@ class HomeView extends StatelessWidget {
                     // Text1 Input
                     TextFormField(
                       onChanged: (value) => viewModel.text1 = value,
-                      decoration: const InputDecoration(labelText: 'Text 1'),
+                      decoration: const InputDecoration(labelText: '2nd Text'),
                       validator: (value) {
                         // You can add validation rules here if needed
                         return null;
                       },
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
 
                     // Generate Meme Button
                     ElevatedButton(
@@ -85,16 +84,6 @@ class HomeView extends StatelessWidget {
                           : const Text('Generate Meme'),
                     ),
                     const SizedBox(height: 16),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    // ElevatedButton(
-                    //   onPressed: viewModel.navigateTOMemeView,
-                    //   child: const Text("View Your Meme"),
-                    // ),
-
-                    // Meme Display
-                    // Image.network(viewModel.imageUrl),
                   ],
                 ),
               ),

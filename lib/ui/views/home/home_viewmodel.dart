@@ -69,4 +69,9 @@ class HomeViewModel extends BaseViewModel {
       setBusy(false);
     }
   }
+
+  // showSnackBar({required String text}) {
+
+  //   );
+  // }
 }

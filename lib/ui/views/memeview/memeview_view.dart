@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:memegeneraterappusingstacked/app/app.dart';
 import 'package:stacked/stacked.dart';
 
 import 'memeview_viewmodel.dart';
 
 class MemeviewView extends StackedView<MemeviewViewModel> {
-  const MemeviewView({Key? key}) : super(key: key);
+  const MemeviewView({super.key});
 
   @override
   Widget builder(
@@ -19,10 +18,30 @@ class MemeviewView extends StackedView<MemeviewViewModel> {
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
-        child: Column(
-          children: [
-            Image.network(viewModel.imageUrl),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Container(
+                  // decorate the border of the container to make the container border visible
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 5,
+                    ),
+                  ),
+                  child: Image.network(viewModel.imageUrl)),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  await viewModel.shareAndSaveImage();
+                },
+                icon: const Icon(Icons.share),
+                label: const Text("Share"),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
