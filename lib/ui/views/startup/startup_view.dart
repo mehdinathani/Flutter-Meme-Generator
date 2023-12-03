@@ -20,9 +20,14 @@ class StartupView extends StackedView<StartupViewModel> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'STACKED',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+              'Meme Generater',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w900,
+              ),
             ),
+            Text("Your Ultimate Meme Generater",
+                style: TextStyle(fontSize: 20)),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [

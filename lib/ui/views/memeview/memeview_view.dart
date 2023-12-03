@@ -14,34 +14,70 @@ class MemeviewView extends StackedView<MemeviewViewModel> {
   ) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Generated Meme"),
+        backgroundColor: Colors.purple,
+        centerTitle: true,
+        title: const Text(
+          "Generated Meme",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Container(
-                  // decorate the border of the container to make the container border visible
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 5,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Container(
+                      // decorate the border of the container to make the container border visible
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 5,
+                        ),
+                      ),
+                      child: Image.network(viewModel.imageUrl)),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all(const Size(200, 60)),
+                      backgroundColor: MaterialStateProperty.all(Colors.purple),
+                    ),
+                    onPressed: () async {
+                      await viewModel.shareAndSaveImage();
+                    },
+                    icon: const Icon(
+                      Icons.share,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                    label: const Text(
+                      "Share",
+                      style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                   ),
-                  child: Image.network(viewModel.imageUrl)),
-              const SizedBox(height: 16),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  await viewModel.shareAndSaveImage();
-                },
-                icon: const Icon(Icons.share),
-                label: const Text("Share"),
+                  const SizedBox(height: 16),
+                ],
               ),
-              const SizedBox(height: 16),
-            ],
-          ),
+            ),
+            const Expanded(child: SizedBox()),
+            Container(
+              width: MediaQuery.of(context).size.width * 1,
+              color: Colors.purple,
+              // padding: EdgeInsets.symmetric(horizontal: 5),
+              alignment: Alignment.bottomCenter,
+              child: const Center(
+                child: Text(
+                  'Made with ❤️ by mehdinathani,\n Copyright © 2023 All rights reserved.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
