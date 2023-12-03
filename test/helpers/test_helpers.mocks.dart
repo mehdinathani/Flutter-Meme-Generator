@@ -7,6 +7,8 @@ import 'dart:async' as _i5;
 import 'dart:ui' as _i6;
 
 import 'package:flutter/material.dart' as _i4;
+import 'package:memegeneraterappusingstacked/services/admob_service.dart'
+    as _i8;
 import 'package:memegeneraterappusingstacked/services/memegenerationservice_service.dart'
     as _i7;
 import 'package:mockito/mockito.dart' as _i1;
@@ -719,6 +721,28 @@ class MockMemegenerationserviceService extends _i1.Mock
       );
 
   @override
+  String get imageUrl => (super.noSuchMethod(
+        Invocation.getter(#imageUrl),
+        returnValue: _i3.dummyValue<String>(
+          this,
+          Invocation.getter(#imageUrl),
+        ),
+        returnValueForMissingStub: _i3.dummyValue<String>(
+          this,
+          Invocation.getter(#imageUrl),
+        ),
+      ) as String);
+
+  @override
+  set imageUrl(String? _imageUrl) => super.noSuchMethod(
+        Invocation.setter(
+          #imageUrl,
+          _imageUrl,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i5.Future<String> generateMeme(
     String? templateId,
     String? text0,
@@ -758,3 +782,8 @@ class MockMemegenerationserviceService extends _i1.Mock
         )),
       ) as _i5.Future<String>);
 }
+
+/// A class which mocks [AdmobService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAdmobService extends _i1.Mock implements _i8.AdmobService {}

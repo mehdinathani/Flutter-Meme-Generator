@@ -11,6 +11,7 @@ class HomeView extends StatelessWidget {
       viewModelBuilder: () => HomeViewModel(),
       builder: (context, viewModel, child) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           // backgroundColor: Colors.deepPurpleColor[100],
           appBar: AppBar(
             backgroundColor: Colors.purple,
@@ -28,6 +29,32 @@ class HomeView extends StatelessWidget {
                     padding: const EdgeInsets.all(18.0),
                     child: Column(
                       children: [
+                        Container(
+                          color: Colors.black,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "   ${viewModel.guestUserName}",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'Stars ${viewModel.admobService.rewardedScore} ⭐  ',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
                         SizedBox(
                           // color: Colors.purple,
                           width: MediaQuery.of(context).size.width * 0.9,
@@ -113,8 +140,17 @@ class HomeView extends StatelessWidget {
                           ),
                           onPressed: () async {
                             // Validate all fields before generating the meme
-                            await viewModel.generateMeme();
-                            viewModel.navigateTOMemeView();
+                            if (viewModel.admobService.rewardedScore > 0) {
+                              await viewModel.generateMeme();
+                              viewModel.navigateTOMemeView();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "You Need atlease 1 Star to generate this meme. please See somes Ads to earn Stars"),
+                                ),
+                              );
+                            }
                           },
                           child: viewModel.isBusy
                               ? const CircularProgressIndicator() // Show loading indicator
@@ -125,6 +161,21 @@ class HomeView extends StatelessWidget {
                                 ),
                         ),
                         const SizedBox(height: 16),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            fixedSize:
+                                MaterialStateProperty.all(const Size(350, 60)),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.purple),
+                          ),
+                          onPressed: () async {
+                            await viewModel.showRewardedAd();
+                          },
+                          child: const Text(
+                            "Earn Stars",
+                            style: TextStyle(fontSize: 24, color: Colors.white),
+                          ),
+                        ),
                       ],
                     ),
                   ),

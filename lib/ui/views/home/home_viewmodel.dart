@@ -5,11 +5,12 @@ import 'package:memegeneraterappusingstacked/app/app.locator.dart';
 import 'package:memegeneraterappusingstacked/app/app.router.dart';
 import 'package:memegeneraterappusingstacked/config/config.dart';
 import 'package:memegeneraterappusingstacked/model/template_model.dart';
+import 'package:memegeneraterappusingstacked/services/admob_service.dart';
 import 'package:memegeneraterappusingstacked/services/memegenerationservice_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class HomeViewModel extends BaseViewModel {
+class HomeViewModel extends BaseViewModel with ListenableServiceMixin {
   String templateId = '';
   String text0 = '';
   String text1 = '';
@@ -17,13 +18,21 @@ class HomeViewModel extends BaseViewModel {
   String password = Config.password;
   String imageUrl = '';
   List<Meme> memes = memeList;
+  String guestUserName = '';
+  int userRewardScore = 0;
   // Getter for template names
   List<String> get templateNames => memes.map((meme) => meme.name).toList();
-
   final MemegenerationserviceService _memeservice =
       locator<MemegenerationserviceService>();
 
   final navigationService = locator<NavigationService>();
+  final AdmobService admobService = locator<AdmobService>();
+
+  HomeViewModel() {
+    getUserInfo();
+
+    rebuildUi();
+  }
 
   int getMemeIDbyName(String memeName) {
     Meme? selectedMeme = memes.firstWhere(
@@ -38,6 +47,8 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> generateMeme() async {
+    admobService.rewardedScore--;
+    rebuildUi();
     if (templateId.isEmpty || text0.isEmpty || text1.isEmpty) {
       // Perform validation and show an error message if needed
       // You may use a state variable to manage the error message in your UI
@@ -70,8 +81,12 @@ class HomeViewModel extends BaseViewModel {
     }
   }
 
-  // showSnackBar({required String text}) {
+  getUserInfo() {
+    guestUserName = admobService.generateRandomGuestNumber();
+    userRewardScore = admobService.rewardedScore;
+  }
 
-  //   );
-  // }
+  showRewardedAd() async {
+    await admobService.showRewardedAd();
+  }
 }
